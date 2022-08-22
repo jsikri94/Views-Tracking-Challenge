@@ -29,5 +29,6 @@ module.exports = {
     "import/no-unresolved": 0,
     "max-len": ["error", 100],
     "require-jsdoc": 0,
+    "linebreak-style": 0,
   },
 };

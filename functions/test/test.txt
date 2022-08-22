@@ -8,3 +8,17 @@ List each case below in plain english with it's expected result.
 For example...
 Case: user a views user b's recording x for the first time
 Expected Result: etc etc
+
+Case 1: Viewer ID is empty
+Expected Result: 400 response
+(similar case for Recording ID empty)
+
+Case 2: Viewer ID doesn't exist in the database
+Expected result: 400 response
+(similar case for Recording ID not existing in the database)
+
+Case 3: User A views User B's recording x for the first time
+Expected result: Unique view count for recording x is incremented by 1
+
+Case 4: User A view User B's recording x for the nth time (n>1)
+Expected result: No change in the database 

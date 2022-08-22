@@ -41,9 +41,24 @@ export const recordingViews = functions.https.onRequest(async (request, response
             response.status(400).send();
         */
 
-      await trackRecordingView(viewerId, recordingId);
-      // it worked!
-      response.status(200).send("No errors!");
+      // Neither of the two values (viewerId or recordingId) can be empty strings,
+      // If either of them are, send 400 response
+      if (viewerId == "" || recordingId == "") {
+        response.status(400).send();
+      } else {
+        // The viewer and recording values are case-sensitive
+        const viewer = await db.collection("Users").doc(viewerId).get();
+        const recording = await db.collection("Recordings").doc(recordingId).get();
+        if (viewer.exists && recording.exists) {
+          await trackRecordingView(viewerId, recordingId);
+          // it worked!
+          response.status(200).send("No errors!");
+        } else {
+          // Also send 400 response if either of the viewerId or recordingId don't
+          // exist in the database
+          response.status(400).send();
+        }
+      }
     } catch (e) {
       // it didn't work :/
       functions.logger.error(e);
